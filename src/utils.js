@@ -26,3 +26,4 @@ export function pixelRatio(context) {
         context.backingStorePixelRatio || 1
     return devicePixelRatio / backingStoreRatio
 }
+

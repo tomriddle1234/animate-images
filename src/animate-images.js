@@ -330,7 +330,7 @@ export function init(node, options = {}) {
          * @returns {*} - Option value
          */
         getOption: (option) => {
-            const allowedOptions = ['fps', 'draggable', 'loop', 'reverse', 'draggable', 'poster', 'autoplay', 'fillMode'];
+            const allowedOptions = ['fps', 'draggable', 'loop', 'reverse', 'draggable', 'poster', 'autoplay', 'fillMode','tagShowHide'];
             if (allowedOptions.includes(option)) {
                 return settings[option];
             } else {

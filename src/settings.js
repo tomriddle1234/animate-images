@@ -40,5 +40,6 @@ export function getDefaultSettings(){
         preloadNumber: 0,
         fps: 30,
         fillMode: "cover",
+        tagShowHide: false,
     }
 }

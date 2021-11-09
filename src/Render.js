@@ -17,7 +17,10 @@ export default class Render{
      */
     drawFrame(frameNumberOrImage){
         if (Number.isInteger(frameNumberOrImage)) {
-            this.#image = this.#data.loadedImagesArray[frameNumberOrImage-1]
+            // console.log(frameNumberOrImage);
+            this.#image = this.#data.loadedImagesArray[frameNumberOrImage-1];
+            // dispatch an event to send the frame number
+            this.#data.canvas.element.dispatchEvent(new CustomEvent ('animate-images:rendering-frame', {detail:{frameNumberOrImage}}));
         } else {
             this.#image = frameNumberOrImage;
         }

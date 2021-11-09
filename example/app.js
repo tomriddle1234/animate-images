@@ -19,6 +19,7 @@ document.addEventListener("DOMContentLoaded", function() {
         reverse: false,
         autoplay: false,
         fillMode: 'cover',
+        tagShowHide: false,
         //ratio: 2.56,
         onPreloadFinished: (lib) => {
             console.log('Callback: onPreloadFinished');
@@ -58,6 +59,12 @@ document.addEventListener("DOMContentLoaded", function() {
     element.addEventListener('animate-images:drag-end', function () {
         console.log(`Event: animate-images:drag-end`);
     });
+
+    // add the frame number event, so just add the tag in here
+    element.addEventListener('animate-images:rendering-frame', function (e) {
+        // console.log("frame: " + e.detail.frameNumberOrImage);
+        updateTags(e.detail.frameNumberOrImage)
+    })
 
     // Controls
     function setupControls(lib){
@@ -130,6 +137,29 @@ document.addEventListener("DOMContentLoaded", function() {
             instance1.setOption('fillMode', mode);
         }
 
+        let tagShowHide = instance1.getOption('tagShowHide');
+        let tagShowHideBtn = document.querySelector('.js-tagshowhide');
+        tagShowHideBtn.addEventListener('click',()=>{
+            tagShowHide = !tagShowHide;
+            toggleTag(tagShowHide);
+            instance1.setOption('tagShowHide', tagShowHide);
+            tagShowHideBtn.classList.remove('on','off');
+            tagShowHideBtn.classList.add((tagShowHide)?'on':'off');
+        })
+        tagShowHideBtn.classList.add((tagShowHide)?'on':'off');
+        function toggleTag(mode){
+            let tagEle = document.querySelector('.tag-overlay');
+            if (mode == false){
+                tagEle.style.visibility = "hidden";
+            }else {
+                tagEle.style.visibility = "visible";
+            }
+        }
+
+
+
+
+
         let framesInput = document.querySelector('.js-frames-input');
         framesInput.setAttribute('max', instance1.getTotalImages());
         framesInput.addEventListener('input', function() {
@@ -162,3 +192,78 @@ document.addEventListener("DOMContentLoaded", function() {
 
 });
 
+let tagTestOption =
+    [
+        {
+            id: 'tag1',
+            text: '标签1',
+            frameStart: 1,
+            frameEnd: 45,
+            fixed: false,
+            keyPos: [[20, 20], [100, 100], [300, 300]],
+            keyFrames: [1, 25, 45],
+            show: true,
+        }
+    ]
+
+function updateTags(frame) {
+    for (let i = 0; i < tagTestOption.length; i++){
+        if (tagTestOption[i].show){
+            if (frame >= tagTestOption[i].frameStart && frame <= tagTestOption[i].frameEnd){
+                // create the tag if there's not
+                let canvasEle = document.querySelector('.canvas1-block');
+                let createNewTagFlag = true;
+
+                let e = canvasEle.querySelector('.' + tagTestOption[i].id);
+                if (e != null){
+                    createNewTagFlag = false;
+                }
+
+                if (createNewTagFlag) {
+                    let t = document.createElement("div");
+                    t.classList.add('tag-overlay');
+                    t.classList.add(tagTestOption[i].id);
+                    let tt = document.createElement("h1");
+                    tt.textContent = tagTestOption[i].text;
+                    t.appendChild(tt);
+                    t.style.visibility = "hidden";
+                    canvasEle.appendChild(t);
+                }
+                // move tag
+                let t = canvasEle.querySelector('.'+ tagTestOption[i].id)
+                // given frame get position
+                let c = getPosition(frame, tagTestOption[i].keyPos, tagTestOption[i].keyFrames);
+                t.style.left = c.x;
+                t.style.top = c.y;
+                console.log("Moving: " + c.x + ' ' + c.y);
+                t.style.visibility = "visible";
+
+
+            } else {
+                // hide element
+                let canvasEle = document.querySelector('.canvas1-block');
+                let t = canvasEle.querySelector('.'+ tagTestOption[i].id)
+                if (t != null)
+                    t.style.visibility = "hidden";
+            }
+        }
+    }
+}
+
+// given coordinate frame set to calc position
+function getPosition(frame, keyPos, keyFrames){
+    if (keyPos.length !== keyFrames.length)
+    {
+        console.log("Error! input key frame setting Error!");
+        return {x:0,y:0};
+    }
+    for (let i = 1 ; i < keyFrames.length; ++i){
+        if (frame >= keyFrames[i-1] && frame <= keyFrames[i]){
+            let x = (frame - keyFrames[i-1]) / (keyFrames[i] - keyFrames[i-1]) *
+                (keyPos[i][0] - keyPos[i-1][0]) + keyPos[i-1][0];
+            let y = (frame - keyFrames[i-1]) / (keyFrames[i] - keyFrames[i-1]) *
+                (keyPos[i][1] - keyPos[i-1][1]) + keyPos[i-1][1];
+            return {x: x, y:y};
+        }
+    }
+}
