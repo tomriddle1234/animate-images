@@ -19,7 +19,7 @@ document.addEventListener("DOMContentLoaded", function() {
         reverse: false,
         autoplay: false,
         fillMode: 'cover',
-        tagShowHide: false,
+        tagShowHide: true,
         //ratio: 2.56,
         onPreloadFinished: (lib) => {
             console.log('Callback: onPreloadFinished');
@@ -63,7 +63,8 @@ document.addEventListener("DOMContentLoaded", function() {
     // add the frame number event, so just add the tag in here
     element.addEventListener('animate-images:rendering-frame', function (e) {
         // console.log("frame: " + e.detail.frameNumberOrImage);
-        updateTags(e.detail.frameNumberOrImage)
+        if (instance1.getOption('tagShowHide'))
+            updateTags(e.detail.frameNumberOrImage);
     })
 
     // Controls
@@ -147,13 +148,17 @@ document.addEventListener("DOMContentLoaded", function() {
             tagShowHideBtn.classList.add((tagShowHide)?'on':'off');
         })
         tagShowHideBtn.classList.add((tagShowHide)?'on':'off');
+
         function toggleTag(mode){
             let tagEle = document.querySelector('.tag-overlay');
-            if (mode == false){
-                tagEle.style.visibility = "hidden";
-            }else {
-                tagEle.style.visibility = "visible";
+            if (tagEle != null){
+                if (mode == false){
+                    tagEle.style.visibility = "hidden";
+                }else {
+                    tagEle.style.visibility = "visible";
+                }
             }
+
         }
 
 
@@ -233,10 +238,11 @@ function updateTags(frame) {
                 let t = canvasEle.querySelector('.'+ tagTestOption[i].id)
                 // given frame get position
                 let c = getPosition(frame, tagTestOption[i].keyPos, tagTestOption[i].keyFrames);
-                t.style.left = c.x;
-                t.style.top = c.y;
+
                 console.log("Moving: " + c.x + ' ' + c.y);
                 t.style.visibility = "visible";
+                t.style.left = parseFloat(c.x)+'px';
+                t.style.top = parseFloat(c.y)+'px';
 
 
             } else {
