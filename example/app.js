@@ -226,11 +226,19 @@ function updateTags(frame) {
 
                 if (createNewTagFlag) {
                     let t = document.createElement("div");
+
+                    t.classList.add('info');
                     t.classList.add('tag-overlay');
                     t.classList.add(tagTestOption[i].id);
-                    let tt = document.createElement("h1");
-                    tt.textContent = tagTestOption[i].text;
-                    t.appendChild(tt);
+
+                    t.insertAdjacentHTML('beforeend',"<i class=\"bi bi-info-circle-fill\"></i>" +
+                        "<span class=\"extra-info\">" + tagTestOption[i].text + "<\span>");
+
+                    // let tt = document.createElement("h1");
+                    // tt.textContent = tagTestOption[i].text;
+                    // t.appendChild(tt);
+
+
                     t.style.visibility = "hidden";
                     canvasEle.appendChild(t);
                 }

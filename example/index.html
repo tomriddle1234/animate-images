@@ -6,6 +6,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.0/font/bootstrap-icons.css">
+
     <title>序列图像预览-VFXware</title>
 
     <style>
@@ -15,16 +18,7 @@
             margin-left:  auto;
             margin-right:  auto;
         }
-        .tag-overlay{
-            position: absolute;
-            font-size: 16px;
-            text-align: center;
-            padding-bottom: 50px;
-            height: 40px;
-            color: red;
-            pointer-events: none;
-            border: 2px solid white;
-        }
+
         .canvas{
             /*border: 1px solid red;*/
             width: 100%;
@@ -57,6 +51,60 @@
                 flex-grow: 0;
             }
         }
+
+        * {
+            transition: all .2s ease;
+        }
+
+        .tag-overlay{
+            position: absolute;
+            /*font-size: 16px;*/
+            /*text-align: center;*/
+            /*padding-bottom: 50px;*/
+            /*height: 40px;*/
+            /*color: white;*/
+            /*pointer-events: none;*/
+            /*border: 2px solid white;*/
+        }
+
+        .extra-info {
+            display: none;
+            line-height: 30px;
+            font-size: 16px;
+            position: absolute;
+            top: 0;
+            left: 50px;
+            color:black;
+        }
+
+        .info:hover .extra-info {
+            display: block;
+        }
+
+        .info {
+            font-size: 20px;
+            padding-left: 5px;
+            width: 20px;
+            height: 40px;
+            border-radius: 15px;
+            z-index: 1000;
+        }
+
+        .info:hover {
+            background-color: white;
+            padding: 0 0 0 5px;
+            width: 315px;
+            text-align: left !important;
+        }
+
+        .info:hover i{
+            color: black;
+        }
+
+        .info i {
+            color: white;
+        }
+
     </style>
 
 </head>
