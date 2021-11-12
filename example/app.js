@@ -63,6 +63,8 @@ document.addEventListener("DOMContentLoaded", function() {
     // add the frame number event, so just add the tag in here
     element.addEventListener('animate-images:rendering-frame', function (e) {
         // console.log("frame: " + e.detail.frameNumberOrImage);
+        let pt = document.querySelector('.js-show-frame');
+        pt.textContent = e.detail.frameNumberOrImage + '帧';
         if (instance1.getOption('tagShowHide'))
             updateTags(e.detail.frameNumberOrImage);
     })
@@ -201,7 +203,8 @@ let tagTestOption =
     [
         {
             id: 'tag1',
-            text: '标签1',
+            text: '关注点1文字内容',
+            htmlString: '',
             frameStart: 1,
             frameEnd: 45,
             fixed: false,
@@ -233,10 +236,6 @@ function updateTags(frame) {
 
                     t.insertAdjacentHTML('beforeend',"<i class=\"bi bi-info-circle-fill\"></i>" +
                         "<span class=\"extra-info\">" + tagTestOption[i].text + "<\span>");
-
-                    // let tt = document.createElement("h1");
-                    // tt.textContent = tagTestOption[i].text;
-                    // t.appendChild(tt);
 
 
                     t.style.visibility = "hidden";
