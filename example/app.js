@@ -2,8 +2,9 @@ document.addEventListener("DOMContentLoaded", function() {
     // First example
     let element = document.getElementById('canvas1');
     let imagesArray = Array.from(new Array(90), (v, k) => {
-        let number = String(k).padStart(4, "0");
-        return `https://distracted-villani-e19534.netlify.app/train/rotation${number}.jpg`;
+        let number = String(k+1).padStart(4, "0");
+        // return `https://distracted-villani-e19534.netlify.app/train/rotation${number}.jpg`;
+        return `img/guitar1/guitar.${number}.jpg`
     });
     let loadingBlock = document.querySelector('.loading1');
 
@@ -163,7 +164,12 @@ document.addEventListener("DOMContentLoaded", function() {
 
         }
 
-
+        // sound play
+        document.querySelector('.js-sound-btn').addEventListener('click', () => {
+            // play sound
+            let audio = new Audio("sound/guitarNote_prep.mp3");
+            audio.play();
+        });
 
 
 
@@ -203,13 +209,24 @@ let tagTestOption =
     [
         {
             id: 'tag1',
-            text: '关注点1文字内容',
+            text: '琴弦-关注点1文字内容',
             htmlString: '',
             frameStart: 1,
             frameEnd: 45,
             fixed: false,
-            keyPos: [[20, 20], [100, 100], [300, 300]],
-            keyFrames: [1, 25, 45],
+            keyPos: [[400, 240],  [370, 240]],
+            keyFrames: [1,  45],
+            show: true,
+        },
+        {
+            id: 'tag2',
+            text: '旋钮-关注点2文字内容',
+            htmlString: '',
+            frameStart: 1,
+            frameEnd: 45,
+            fixed: false,
+            keyPos: [[420, 340], [380, 360] , [300, 360]],
+            keyFrames: [1, 18, 70],
             show: true,
         }
     ]
