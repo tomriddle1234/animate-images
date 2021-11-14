@@ -223,7 +223,7 @@ let tagTestOption =
             text: '旋钮-关注点2文字内容',
             htmlString: '',
             frameStart: 1,
-            frameEnd: 45,
+            frameEnd: 25,
             fixed: false,
             keyPos: [[420, 340], [380, 360] , [300, 360]],
             keyFrames: [1, 18, 70],
